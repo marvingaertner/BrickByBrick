@@ -209,3 +209,5 @@ __marimo__/
 
 # database stuff
 *.db
+
+*.tar
