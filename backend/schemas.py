@@ -25,6 +25,7 @@ class ExpenseBase(BaseModel):
     category_id: int
     sub_category_id: Optional[int] = None
     phase_id: Optional[int] = None
+    vendor: Optional[str] = None
     tags: List[int] = []
 
 class TagBase(BaseModel):

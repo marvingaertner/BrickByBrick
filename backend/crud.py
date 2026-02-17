@@ -184,7 +184,9 @@ def update_expense(db: Session, expense_id: int, expense: schemas.ExpenseCreate)
     db_expense.category_id = expense.category_id
     db_expense.sub_category_id = expense.sub_category_id
     db_expense.phase_id = expense.phase_id
+    db_expense.phase_id = expense.phase_id
     db_expense.notes = expense.notes
+    db_expense.vendor = expense.vendor
     
     # Update tags
     # Always update tags if provided (empty list means remove all tags)
