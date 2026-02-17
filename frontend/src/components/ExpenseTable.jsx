@@ -31,7 +31,7 @@ const MultiSelectFilter = ({ options, selected, onChange, placeholder = "Select.
         <div className="relative min-w-[140px]" ref={containerRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex h-9 w-full items-center justify-between rounded-md border border-[var(--color-border)] bg-gray-50 px-3 py-2 text-xs text-left focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-[var(--color-text-primary)]"
+                className="flex h-9 w-full items-center justify-between rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-xs text-left focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-[var(--color-text-primary)]"
             >
                 <span className="truncate block">
                     {selected.length === 0 ? placeholder : `${selected.length} selected`}
@@ -40,7 +40,7 @@ const MultiSelectFilter = ({ options, selected, onChange, placeholder = "Select.
             </button>
 
             {isOpen && (
-                <div className="absolute z-20 mt-1 max-h-60 w-48 overflow-auto rounded-md border border-[var(--color-border)] bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="absolute z-20 mt-1 max-h-60 w-48 overflow-auto rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {options.length === 0 ? (
                         <div className="py-2 px-3 text-gray-500 italic">No items</div>
                     ) : (
@@ -193,10 +193,11 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
     };
 
     // Helper to style select inputs consistently with the new Input component
-    const selectClassName = "flex h-10 w-full rounded-md border border-[var(--color-border)] bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50";
+    // Helper to style select inputs consistently with the new Input component
+    const selectClassName = "flex h-10 w-full rounded-md border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 text-[var(--color-text-primary)]";
 
     const MobileExpenseCard = ({ expense, onEdit, onDelete }) => (
-        <div className="bg-white p-4 rounded-lg border border-[var(--color-border)] shadow-sm space-y-3">
+        <div className="bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm space-y-3">
             <div className="flex justify-between items-start">
                 <div>
                     <h3 className="font-medium text-[var(--color-text-primary)]">{expense.title}</h3>
@@ -258,9 +259,9 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
     );
 
     return (
-        <Card className="overflow-hidden p-0 border-0 shadow-none md:border md:shadow-sm md:rounded-lg bg-transparent md:bg-white">
+        <Card className="overflow-hidden p-0 border-0 shadow-none md:border md:shadow-sm md:rounded-lg bg-transparent md:bg-[var(--color-surface)]">
             {/* Filters Section - Collapsible or Stacked on Mobile */}
-            <div className="p-4 bg-white md:bg-gray-50 md:border-b border-[var(--color-border)] space-y-4 mb-4 md:mb-0 rounded-lg md:rounded-none border md:border-0 shadow-sm md:shadow-none">
+            <div className="p-4 bg-[var(--color-surface)] md:bg-[var(--color-surface-highlight)] md:border-b border-[var(--color-border)] space-y-4 mb-4 md:mb-0 rounded-lg md:rounded-none border md:border-0 shadow-sm md:shadow-none">
                 <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-3">
                     {/* Date Range */}
                     <div className="col-span-1 md:col-span-1 space-y-2">
@@ -380,7 +381,7 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
             {/* Desktop View: Table */}
             <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-sm text-left text-[var(--color-text-secondary)]">
-                    <thead className="text-xs text-[var(--color-text-primary)] uppercase bg-gray-50 border-b border-[var(--color-border)]">
+                    <thead className="text-xs text-[var(--color-text-primary)] uppercase bg-[var(--color-surface-highlight)] border-b border-[var(--color-border)]">
                         <tr>
                             <th className="px-6 py-4 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => requestSort('purchase_date')}>
                                 <div className="flex items-center gap-1">
@@ -413,7 +414,7 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
                             </tr>
                         ) : (
                             sortedExpenses.map((expense) => (
-                                <tr key={expense.id} className="bg-white hover:bg-gray-50 transition-colors">
+                                <tr key={expense.id} className="bg-[var(--color-surface)] hover:bg-[var(--color-primary-light)] transition-colors">
                                     <td className="px-6 py-4 whitespace-nowrap">{expense.purchase_date}</td>
                                     <td className="px-6 py-4 font-medium text-[var(--color-text-primary)]">
                                         {expense.title}

@@ -14,8 +14,9 @@ const Button = ({
     const variants = {
         primary: 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] focus:ring-[var(--color-primary)]',
         secondary: 'bg-[var(--color-primary-light)] text-[var(--color-primary)] hover:bg-[#D1E4F9] focus:ring-[var(--color-primary)]',
-        ghost: 'bg-transparent text-[var(--color-text-secondary)] hover:bg-gray-100 focus:ring-gray-500',
-        outline: 'bg-transparent border border-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-gray-50'
+        ghost: 'bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-action-hover)] focus:ring-gray-500',
+        outline: 'bg-transparent border border-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-[var(--color-action-hover)]',
+        danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-600'
     };
 
     const sizes = {

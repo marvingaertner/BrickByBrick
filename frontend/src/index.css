@@ -18,9 +18,37 @@
   --color-info: #D1E4F9;
 
   --color-border: #E5E7EB;
+  --color-input-bg: #F9FAFB;
+  --color-surface-highlight: #F9FAFB;
+  --color-action-hover: #F3F4F6;
 }
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --color-background: #0B1120;
+    --color-surface: #151E32;
+
+    --color-text-primary: #F8FAFC;
+    --color-text-secondary: #94A3B8;
+
+    --color-primary: #38BDF8;
+    --color-primary-light: #1E293B;
+    --color-primary-hover: #0EA5E9;
+
+    --color-border: #2A354E;
+
+    --color-input-bg: #0B1120;
+    /* Darker than surface */
+    --color-surface-highlight: #1E293B;
+    /* Slightly lighter than surface */
+    --color-action-hover: #334155;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-slate-900);
@@ -33,11 +61,15 @@
 }
 
 @utility no-scrollbar {
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
     display: none;
   }
+
   /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
