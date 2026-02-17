@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #005EA8;
+  --color-primary-light: #E5F0FA;
+  --color-primary-hover: #004C8A;
+
+  --color-secondary: #E5F0FA;
+  /* Using primary-light as secondary implementation for now based on buttons */
+
+  --color-background: #F5F7FA;
+  --color-surface: #FFFFFF;
+
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B7280;
+
+  --color-success: #0F9D58;
+  --color-info: #D1E4F9;
+
+  --color-border: #E5E7EB;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-slate-900);
+    @apply antialiased;
+  }
+}
+
+@utility safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility no-scrollbar {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
