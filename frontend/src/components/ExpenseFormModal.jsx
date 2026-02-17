@@ -121,12 +121,12 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
     const subCategories = selectedCategory ? selectedCategory.sub_categories : [];
 
     // Helper class for selects
-    const selectClassName = "flex h-10 w-full rounded-md border border-[var(--color-border)] bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50";
+    const selectClassName = "flex h-10 w-full rounded-md border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 text-[var(--color-text-primary)]";
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <Card className="w-full max-w-lg mx-auto p-0 overflow-hidden shadow-2xl">
-                <div className="flex justify-between items-center p-6 border-b border-[var(--color-border)] bg-gray-50">
+                <div className="flex justify-between items-center p-6 border-b border-[var(--color-border)] bg-[var(--color-surface-highlight)]">
                     <h2 className="text-xl font-bold text-[var(--color-primary)]">
                         {expense ? 'Edit Expense' : 'Add New Expense'}
                     </h2>
@@ -249,7 +249,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                                     onClick={() => toggleTag(tag.id)}
                                     className={`px-3 py-1 text-xs font-medium rounded-full transition-colors border ${formData.tags?.includes(tag.id)
                                         ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]'
-                                        : 'bg-white text-[var(--color-text-secondary)] border-[var(--color-border)] hover:border-[var(--color-primary)]'
+                                        : 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] border-[var(--color-border)] hover:border-[var(--color-primary)]'
                                         }`}
                                 >
                                     {tag.title}
@@ -266,7 +266,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                             value={formData.notes}
                             onChange={handleChange}
                             rows="2"
-                            className="flex w-full rounded-md border border-[var(--color-border)] bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
+                            className="flex w-full rounded-md border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
                         />
                     </div>
 

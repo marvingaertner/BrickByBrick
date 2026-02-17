@@ -182,11 +182,11 @@ const Management = () => {
         <Layout>
             <div className="space-y-6">
                 <div className="flex flex-col gap-4 border-b border-[var(--color-border)] pb-4">
-                    <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg overflow-x-auto max-w-full no-scrollbar">
+                    <div className="flex space-x-1 bg-[var(--color-surface-highlight)] p-1 rounded-lg overflow-x-auto max-w-full no-scrollbar">
                         <button
                             onClick={() => setActiveTab('categories')}
                             className={`px-4 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap flex-shrink-0 ${activeTab === 'categories'
-                                ? 'bg-white text-[var(--color-primary)] shadow-sm'
+                                ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm'
                                 : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                                 }`}
                         >
@@ -195,7 +195,7 @@ const Management = () => {
                         <button
                             onClick={() => setActiveTab('phases')}
                             className={`px-4 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap flex-shrink-0 ${activeTab === 'phases'
-                                ? 'bg-white text-[var(--color-primary)] shadow-sm'
+                                ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm'
                                 : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                                 }`}
                         >
@@ -204,7 +204,7 @@ const Management = () => {
                         <button
                             onClick={() => setActiveTab('tags')}
                             className={`px-4 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap flex-shrink-0 ${activeTab === 'tags'
-                                ? 'bg-white text-[var(--color-primary)] shadow-sm'
+                                ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm'
                                 : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                                 }`}
                         >
@@ -252,7 +252,7 @@ const Management = () => {
                         <div className="space-y-3">
                             {filteredCategories.map((cat) => (
                                 <div key={cat.id} className="border border-[var(--color-border)] rounded-lg overflow-hidden">
-                                    <div className="flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors">
+                                    <div className="flex items-center justify-between p-3 bg-[var(--color-surface-highlight)] hover:bg-[var(--color-action-hover)] cursor-pointer transition-colors">
                                         <div className="flex items-center gap-3 flex-1" onClick={() => toggleCategory(cat.id)}>
                                             {expandedCategories[cat.id] ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
                                             <span className="font-medium text-[var(--color-text-primary)]">{cat.title}</span>
@@ -288,7 +288,7 @@ const Management = () => {
                                         </div>
                                     </div>
                                     {expandedCategories[cat.id] && (
-                                        <div className="p-3 pl-10 border-t border-[var(--color-border)] bg-white">
+                                        <div className="p-3 pl-10 border-t border-[var(--color-border)] bg-[var(--color-background)]">
                                             {cat.sub_categories && cat.sub_categories.length > 0 ? (
                                                 <ul className="space-y-2">
                                                     {cat.sub_categories.map((sub) => (
@@ -330,7 +330,7 @@ const Management = () => {
                         </div>
                         <ul className="divide-y divide-[var(--color-border)]">
                             {filteredPhases.map((phase) => (
-                                <li key={phase.id} className="py-3 flex justify-between items-center group hover:bg-gray-50 -mx-6 px-6 transition-colors">
+                                <li key={phase.id} className="py-3 flex justify-between items-center group hover:bg-[var(--color-action-hover)] -mx-6 px-6 transition-colors">
                                     <span className="text-[var(--color-text-primary)] font-medium">{phase.title}</span>
                                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Button
@@ -364,7 +364,7 @@ const Management = () => {
                         </div>
                         <ul className="divide-y divide-[var(--color-border)]">
                             {filteredTags.map((tag) => (
-                                <li key={tag.id} className="py-3 flex justify-between items-center group hover:bg-gray-50 -mx-6 px-6 transition-colors">
+                                <li key={tag.id} className="py-3 flex justify-between items-center group hover:bg-[var(--color-action-hover)] -mx-6 px-6 transition-colors">
                                     <span className="text-[var(--color-text-primary)] font-medium">{tag.title}</span>
                                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Button

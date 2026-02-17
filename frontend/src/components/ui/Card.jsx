@@ -6,7 +6,7 @@ const Card = ({ children, className, ...props }) => {
     return (
         <div
             className={twMerge(clsx(
-                'bg-white rounded-xl shadow-sm border border-[var(--color-border)] p-4 sm:p-6',
+                'bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] p-4 sm:p-6',
                 className
             ))}
             {...props}
