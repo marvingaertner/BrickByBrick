@@ -46,6 +46,7 @@ class Expense(Base):
     creation_date = Column(Date, default=datetime.date.today)
     purchase_date = Column(Date, default=datetime.date.today)
     notes = Column(Text, nullable=True)
+    vendor = Column(String, nullable=True)
 
     # Foreign Keys
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)

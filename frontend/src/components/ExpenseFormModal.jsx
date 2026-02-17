@@ -11,6 +11,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
     const [tags, setTags] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
+        vendor: '',
         amount: '',
         purchase_date: new Date().toISOString().split('T')[0],
         category_id: '',
@@ -26,6 +27,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
             if (expense) {
                 setFormData({
                     title: expense.title,
+                    vendor: expense.vendor || '',
                     amount: expense.amount,
                     purchase_date: expense.purchase_date,
                     category_id: expense.category?.id || '',
@@ -37,6 +39,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
             } else {
                 setFormData({
                     title: '',
+                    vendor: '',
                     amount: '',
                     purchase_date: new Date().toISOString().split('T')[0],
                     category_id: '',
@@ -142,6 +145,17 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                             onChange={handleChange}
                             required
                             placeholder="e.g. Concrete mix"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-1">Vendor</label>
+                        <Input
+                            type="text"
+                            name="vendor"
+                            value={formData.vendor}
+                            onChange={handleChange}
+                            placeholder="e.g. Bauhaus"
                         />
                     </div>
 

@@ -200,7 +200,10 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
             <div className="flex justify-between items-start">
                 <div>
                     <h3 className="font-medium text-[var(--color-text-primary)]">{expense.title}</h3>
-                    <p className="text-xs text-[var(--color-text-secondary)]">{expense.purchase_date}</p>
+                    <div className="flex flex-col">
+                        <p className="text-xs text-[var(--color-text-secondary)]">{expense.purchase_date}</p>
+                        {expense.vendor && <p className="text-xs text-[var(--color-text-secondary)]">Via: {expense.vendor}</p>}
+                    </div>
                 </div>
                 <span className="font-bold text-[var(--color-primary)]">
                     {formatCurrency(expense.amount)}
@@ -385,6 +388,7 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
                                 </div>
                             </th>
                             <th className="px-6 py-4">Title</th>
+                            <th className="px-6 py-4">Vendor</th>
                             <th className="px-6 py-4">Category</th>
                             <th className="px-6 py-4">Sub-Category</th>
                             <th className="px-6 py-4">Phase</th>
@@ -413,6 +417,9 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
                                     <td className="px-6 py-4 whitespace-nowrap">{expense.purchase_date}</td>
                                     <td className="px-6 py-4 font-medium text-[var(--color-text-primary)]">
                                         {expense.title}
+                                    </td>
+                                    <td className="px-6 py-4 text-[var(--color-text-secondary)]">
+                                        {expense.vendor || '-'}
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-primary-light)] text-[var(--color-primary)]">
