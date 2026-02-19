@@ -1,6 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from typing import Optional, List
 from datetime import date
+import os
 
 # --- Base Schemas ---
 class CategoryBase(BaseModel):
@@ -48,6 +49,17 @@ class ExpenseAttachmentBase(BaseModel):
     
     class Config:
         from_attributes = True
+
+    @validator('file_path')
+    def prepend_app_url(cls, v):
+        # If the path is relative (starts with /static), prepend APP_URL
+        if v and v.startswith('/static'):
+            app_url = os.getenv('APP_URL', 'http://localhost:8000')
+            # Ensure no double slashes if app_url ends with /
+            if app_url.endswith('/'):
+                app_url = app_url[:-1]
+            return f"{app_url}{v}"
+        return v
 
 # --- Create Schemas ---
 class CategoryCreate(CategoryBase):

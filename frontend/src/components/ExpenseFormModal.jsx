@@ -307,7 +307,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                                         <div className="flex items-center gap-2 overflow-hidden">
                                             <FileText className="w-4 h-4 text-[var(--color-primary)]" />
                                             <a
-                                                href={`http://localhost:8000${att.file_path}`}
+                                                href={att.file_path}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-sm truncate text-[var(--color-text-primary)] hover:underline"

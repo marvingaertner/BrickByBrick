@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    image: brickbybrick:latest
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_URL=http://localhost:8000
+    volumes:
+      - ./backend/static/uploads:/app/backend/static/uploads
