@@ -58,6 +58,7 @@ class Expense(Base):
     sub_category = relationship("SubCategory", back_populates="expenses")
     phase = relationship("ConstructionPhase", back_populates="expenses")
     tags = relationship("Tag", secondary="expense_tags", back_populates="expenses")
+    attachments = relationship("ExpenseAttachment", back_populates="expense", cascade="all, delete-orphan")
 
 # Association Table
 class ExpenseTag(Base):
@@ -73,3 +74,16 @@ class Tag(Base):
 
     # Relationships
     expenses = relationship("Expense", secondary="expense_tags", back_populates="tags")
+
+class ExpenseAttachment(Base):
+    __tablename__ = "expense_attachments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    expense_id = Column(Integer, ForeignKey("expenses.id", ondelete="CASCADE"), nullable=False)
+    filename = Column(String, nullable=False)
+    file_path = Column(String, nullable=False)
+    file_size = Column(Integer, nullable=False)
+    upload_date = Column(Date, default=datetime.date.today)
+
+    # Relationships
+    expense = relationship("Expense", back_populates="attachments")

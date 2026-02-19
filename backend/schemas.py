@@ -39,6 +39,16 @@ class Tag(TagBase):
     class Config:
         from_attributes = True
 
+class ExpenseAttachmentBase(BaseModel):
+    id: int
+    filename: str
+    file_path: str
+    file_size: int
+    upload_date: date
+    
+    class Config:
+        from_attributes = True
+
 # --- Create Schemas ---
 class CategoryCreate(CategoryBase):
     pass
@@ -76,6 +86,7 @@ class Expense(ExpenseBase):
     sub_category: Optional[SubCategory] = None
     phase: Optional[ConstructionPhase] = None
     tags: List[Tag] = []
+    attachments: List[ExpenseAttachmentBase] = []
 
     class Config:
         from_attributes = True

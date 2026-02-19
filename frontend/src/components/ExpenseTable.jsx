@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { formatCurrency } from '../utils';
-import { Trash2, Edit, ChevronUp, ChevronDown, Filter } from 'lucide-react';
+import { Trash2, Edit, ChevronUp, ChevronDown, Filter, Paperclip } from 'lucide-react';
 import Button from './ui/Button';
 import Input from './ui/Input';
 import Card from './ui/Card';
@@ -200,7 +200,12 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
         <div className="bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm space-y-3">
             <div className="flex justify-between items-start">
                 <div>
-                    <h3 className="font-medium text-[var(--color-text-primary)]">{expense.title}</h3>
+                    <div className="flex items-center gap-2">
+                        <h3 className="font-medium text-[var(--color-text-primary)]">{expense.title}</h3>
+                        {expense.attachments && expense.attachments.length > 0 && (
+                            <Paperclip className="w-3 h-3 text-[var(--color-primary)]" />
+                        )}
+                    </div>
                     <div className="flex flex-col">
                         <p className="text-xs text-[var(--color-text-secondary)]">{expense.purchase_date}</p>
                         {expense.vendor && <p className="text-xs text-[var(--color-text-secondary)]">Via: {expense.vendor}</p>}
@@ -389,6 +394,7 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
                                 </div>
                             </th>
                             <th className="px-6 py-4">Title</th>
+                            <th className="px-6 py-4">Att.</th>
                             <th className="px-6 py-4">Vendor</th>
                             <th className="px-6 py-4">Category</th>
                             <th className="px-6 py-4">Sub-Category</th>
@@ -418,6 +424,14 @@ const ExpenseTable = ({ expenses, onDelete, onEdit }) => {
                                     <td className="px-6 py-4 whitespace-nowrap">{expense.purchase_date}</td>
                                     <td className="px-6 py-4 font-medium text-[var(--color-text-primary)]">
                                         {expense.title}
+                                    </td>
+                                    <td className="px-6 py-4 text-[var(--color-text-secondary)]">
+                                        {expense.attachments && expense.attachments.length > 0 && (
+                                            <div className="flex items-center gap-1" title={`${expense.attachments.length} attachment(s)`}>
+                                                <Paperclip className="w-4 h-4 text-[var(--color-primary)]" />
+                                                <span className="text-xs">{expense.attachments.length}</span>
+                                            </div>
+                                        )}
                                     </td>
                                     <td className="px-6 py-4 text-[var(--color-text-secondary)]">
                                         {expense.vendor || '-'}
