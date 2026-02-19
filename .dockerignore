@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Python
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.Python
+env/
+venv/
+.env
+
+# Node
+node_modules/
+npm-debug.log
+
+# Build artifacts
+frontend/dist/
+dist/
+
+# Database
+*.db
+*.sqlite3
+
+# Docker
+Dockerfile
+docker_deployment.md

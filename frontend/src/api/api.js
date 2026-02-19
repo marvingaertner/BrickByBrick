@@ -7,4 +7,18 @@ const api = axios.create({
     },
 });
 
+export const uploadAttachment = async (expenseId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post(`/expenses/${expenseId}/attachments/`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
+
+export const deleteAttachment = async (attachmentId) => {
+    return api.delete(`/attachments/${attachmentId}`);
+};
+
 export default api;

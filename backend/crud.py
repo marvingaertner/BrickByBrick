@@ -184,7 +184,6 @@ def update_expense(db: Session, expense_id: int, expense: schemas.ExpenseCreate)
     db_expense.category_id = expense.category_id
     db_expense.sub_category_id = expense.sub_category_id
     db_expense.phase_id = expense.phase_id
-    db_expense.phase_id = expense.phase_id
     db_expense.notes = expense.notes
     db_expense.vendor = expense.vendor
     
@@ -197,3 +196,27 @@ def update_expense(db: Session, expense_id: int, expense: schemas.ExpenseCreate)
     db.commit()
     db.refresh(db_expense)
     return db_expense
+
+# --- Attachment CRUD ---
+def get_attachment(db: Session, attachment_id: int):
+    return db.query(models.ExpenseAttachment).filter(models.ExpenseAttachment.id == attachment_id).first()
+
+def create_attachment(db: Session, expense_id: int, filename: str, file_path: str, file_size: int):
+    db_attachment = models.ExpenseAttachment(
+        expense_id=expense_id,
+        filename=filename,
+        file_path=file_path,
+        file_size=file_size
+    )
+    db.add(db_attachment)
+    db.commit()
+    db.refresh(db_attachment)
+    return db_attachment
+
+def delete_attachment(db: Session, attachment_id: int):
+    db_attachment = get_attachment(db, attachment_id)
+    if not db_attachment:
+        return False
+    db.delete(db_attachment)
+    db.commit()
+    return True

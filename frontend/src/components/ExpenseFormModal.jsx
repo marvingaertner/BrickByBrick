@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api/api';
-import { X } from 'lucide-react';
+import api, { uploadAttachment, deleteAttachment } from '../api/api';
+import { X, FileText, Trash2, Download } from 'lucide-react';
 import Button from './ui/Button';
 import Input from './ui/Input';
 import Card from './ui/Card';
+import FileUploader from './ui/FileUploader';
 
 const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
     const [categories, setCategories] = useState([]);
     const [phases, setPhases] = useState([]);
     const [tags, setTags] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [existingAttachments, setExistingAttachments] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
         vendor: '',
@@ -24,6 +27,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
     useEffect(() => {
         if (isOpen) {
             fetchOptions();
+            setFiles([]);
             if (expense) {
                 setFormData({
                     title: expense.title,
@@ -36,6 +40,7 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                     tags: expense.tags ? expense.tags.map(t => t.id) : [],
                     notes: expense.notes || '',
                 });
+                setExistingAttachments(expense.attachments || []);
             } else {
                 setFormData({
                     title: '',
@@ -44,11 +49,11 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                     purchase_date: new Date().toISOString().split('T')[0],
                     category_id: '',
                     sub_category_id: '',
-                    sub_category_id: '',
                     phase_id: '',
                     tags: [],
                     notes: '',
                 });
+                setExistingAttachments([]);
             }
         }
     }, [isOpen, expense]);
@@ -89,6 +94,18 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
         });
     };
 
+    const handleDeleteAttachment = async (attachmentId) => {
+        if (window.confirm('Are you sure you want to delete this attachment?')) {
+            try {
+                await deleteAttachment(attachmentId);
+                setExistingAttachments(prev => prev.filter(a => a.id !== attachmentId));
+            } catch (error) {
+                console.error('Error deleting attachment:', error);
+                alert('Failed to delete attachment.');
+            }
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -101,10 +118,18 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                 tags: formData.tags,
             };
 
+            let expenseId;
             if (expense) {
                 await api.put(`/expenses/${expense.id}`, payload);
+                expenseId = expense.id;
             } else {
-                await api.post('/expenses/', payload);
+                const res = await api.post('/expenses/', payload);
+                expenseId = res.data.id;
+            }
+
+            // Upload files
+            if (files.length > 0 && expenseId) {
+                await Promise.all(files.map(file => uploadAttachment(expenseId, file)));
             }
 
             onSuccess();
@@ -268,6 +293,42 @@ const ExpenseForm = ({ isOpen, onClose, onSuccess, expense = null }) => {
                             rows="2"
                             className="flex w-full rounded-md border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">Attachments</label>
+
+                        {/* Existing Attachments */}
+                        {existingAttachments.length > 0 && (
+                            <div className="mb-4 space-y-2">
+                                <p className="text-xs text-[var(--color-text-secondary)] font-medium">Existing Files:</p>
+                                {existingAttachments.map(att => (
+                                    <div key={att.id} className="flex items-center justify-between p-2 rounded-md bg-[var(--color-surface)] border border-[var(--color-border)]">
+                                        <div className="flex items-center gap-2 overflow-hidden">
+                                            <FileText className="w-4 h-4 text-[var(--color-primary)]" />
+                                            <a
+                                                href={`http://localhost:8000${att.file_path}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-sm truncate text-[var(--color-text-primary)] hover:underline"
+                                            >
+                                                {att.filename}
+                                            </a>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDeleteAttachment(att.id)}
+                                            className="p-1 hover:bg-red-100 hover:text-red-500 rounded-full transition-colors"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* File Uploader */}
+                        <FileUploader files={files} onFilesChange={setFiles} />
                     </div>
 
                     <div className="flex justify-end gap-3 pt-2">

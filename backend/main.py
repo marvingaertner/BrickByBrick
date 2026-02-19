@@ -1,6 +1,10 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, File, UploadFile
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from typing import List
+import os
+import shutil
+import uuid
 from . import models, schemas, crud, database
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -16,6 +20,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount static files
+UPLOAD_DIR = "backend/static/uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/static", StaticFiles(directory="backend/static"), name="static")
 
 def get_db():
     db = database.SessionLocal()
@@ -143,6 +152,57 @@ def delete_expense(expense_id: int, db: Session = Depends(get_db)):
     success = crud.delete_expense(db, expense_id)
     if not success:
          raise HTTPException(status_code=404, detail="Expense not found")
+    return {"ok": True}
+
+
+# --- Attachments ---
+@app.post("/expenses/{expense_id}/attachments/", response_model=schemas.ExpenseAttachmentBase)
+async def create_attachment(expense_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    # Verify expense exists
+    # For now we rely on the FK constraint in the DB or we can add a check if needed.
+    # To keep it simple and efficient, we proceed. Models have FK.
+    
+    # Generate unique filename
+    file_extension = os.path.splitext(file.filename)[1]
+    unique_filename = f"{uuid.uuid4()}{file_extension}"
+    file_path = os.path.join(UPLOAD_DIR, unique_filename)
+    
+    # Save file
+    try:
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Could not save file: {str(e)}")
+        
+    # Create DB record
+    # Store relative path for serving
+    relative_path = f"/static/uploads/{unique_filename}"
+    return crud.create_attachment(
+        db=db,
+        expense_id=expense_id,
+        filename=file.filename,
+        file_path=relative_path,
+        file_size=0 # We will fix file size later if needed or get it from os.path.getsize(file_path)
+    )
+
+@app.delete("/attachments/{attachment_id}")
+def delete_attachment(attachment_id: int, db: Session = Depends(get_db)):
+    # Get attachment to find file path
+    attachment = crud.get_attachment(db, attachment_id)
+    if not attachment:
+        raise HTTPException(status_code=404, detail="Attachment not found")
+        
+    # Delete file from disk
+    # file_path in DB is relative URL e.g. /static/uploads/..., we need system path.
+    # UPLOAD_DIR is backend/static/uploads
+    filename = os.path.basename(attachment.file_path)
+    system_path = os.path.join(UPLOAD_DIR, filename)
+    
+    if os.path.exists(system_path):
+        os.remove(system_path)
+        
+    # Delete from DB
+    crud.delete_attachment(db, attachment_id)
     return {"ok": True}
 
 if __name__ == "__main__":

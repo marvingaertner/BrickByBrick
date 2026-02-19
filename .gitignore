@@ -211,3 +211,5 @@ __marimo__/
 *.db
 
 *.tar
+
+backend/static/uploads
